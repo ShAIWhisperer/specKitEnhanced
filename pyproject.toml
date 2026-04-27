@@ -5,7 +5,7 @@ description = "specKitEnhanced — opinionated SDD framework wrapping github/spe
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Shai Elchuk", email = "shailelchuk@gmail.com" }]
+authors = [{ name = "ShAI Bernard Lelchuk", email = "shailelchuk@gmail.com" }]
 
 dependencies = [
     "typer>=0.12",
