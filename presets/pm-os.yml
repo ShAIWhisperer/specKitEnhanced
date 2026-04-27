@@ -1,0 +1,33 @@
+name: pm-os
+description: >
+  Extends `core` with the 7 extended templates (runbook, security,
+  observability, data-model, api-contract, ux-flow, ADR per-decision)
+  and wires the PM OS bridge so PM OS-compatible projects emit
+  specKitEnhanced-shaped outputs.
+
+extends: core
+
+templates:
+  - templates/extended/data-model-template.md
+  - templates/extended/api-contract-template.md
+  - templates/extended/ux-flow-template.md
+  - templates/extended/runbook-template.md
+  - templates/extended/security-template.md
+  - templates/extended/observability-template.md
+  - templates/extended/adr/ADR-NNNN-slug-template.md
+
+commands:
+  - extension/specKitEnhanced/commands/runbook.md
+  - extension/specKitEnhanced/commands/security.md
+  - extension/specKitEnhanced/commands/observability.md
+  - extension/specKitEnhanced/commands/data-model.md
+  - extension/specKitEnhanced/commands/api-contract.md
+  - extension/specKitEnhanced/commands/ux-flow.md
+
+bridge:
+  pmos_template_env: "SPECKIT_X_TEMPLATE_DIR"
+  pmos_category: "sdd"
+  pmos_files:
+    - backend/app/api/specs.py
+    - backend/app/core/skill_engine.py
+    - backend/app/core/agent_orchestrator.py

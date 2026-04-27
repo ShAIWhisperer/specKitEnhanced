@@ -1,0 +1,4 @@
+preset: core
+voice: caveman   # options: caveman | verbose
+installed_on: 2026-04-24
+installed_by: @author

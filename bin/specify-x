@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Shim for npx/npm compatibility. Delegates to the Python CLI.
+exec python3 -m specify_x.cli "$@"

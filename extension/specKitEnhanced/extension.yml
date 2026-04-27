@@ -1,0 +1,133 @@
+name: specKitEnhanced
+version: 0.1.0
+description: >
+  Opinionated SDD extension pack for github/spec-kit. Adds 17 extended templates
+  (Architecture, Design, System, History, Lessons, ADRs, Runbook, Risk, Security,
+  Observability, API Contract, Data Model, UX Flow, Personas, Glossary, Research)
+  under the /speckit.x.* namespace. Frontmatter + `{ref:}` syntax compatible
+  with PM OS-compatible projects.
+license: MIT
+author: "ShAIWhisperer"
+homepage: "https://github.com/ShAIWhisperer/specKitEnhanced"
+
+# Composition strategy for each artifact the extension touches. Supported by
+# spec-kit v0.8.0: prepend | append | wrap | replace.
+composition:
+  constitution.md: wrap
+  README.md: append
+
+# Slash commands this extension registers. Each points at a command file
+# relative to this extension's root. spec-kit loads these under the
+# /speckit.x.* namespace.
+commands:
+  - id: speckit.x.architecture
+    file: commands/architecture.md
+    produces: specs/architecture/{slug}.md
+    template: templates/core/architecture-template.md
+  - id: speckit.x.design
+    file: commands/design.md
+    produces: specs/features/{slug}/design.md
+    template: templates/core/design-template.md
+  - id: speckit.x.system
+    file: commands/system.md
+    produces: specs/system.md
+    template: templates/core/system-template.md
+  - id: speckit.x.adr
+    file: commands/adr.md
+    produces: specs/adr/ADR-{nnnn}-{slug}.md
+    template: templates/extended/adr/ADR-NNNN-slug-template.md
+    appends_to: specs/decisions.md
+  - id: speckit.x.lessons
+    file: commands/lessons.md
+    produces: specs/lessons.md
+    mode: append
+    template: templates/core/lessons-template.md
+  - id: speckit.x.history
+    file: commands/history.md
+    produces: specs/history.md
+    mode: append
+    template: templates/core/history-template.md
+  - id: speckit.x.runbook
+    file: commands/runbook.md
+    produces: specs/runbooks/{svc}.md
+    template: templates/extended/runbook-template.md
+  - id: speckit.x.risk
+    file: commands/risk.md
+    produces: specs/risks.md
+    mode: append
+    template: templates/core/risks-template.md
+  - id: speckit.x.security
+    file: commands/security.md
+    produces: specs/security.md
+    template: templates/extended/security-template.md
+  - id: speckit.x.data-model
+    file: commands/data-model.md
+    produces: specs/data-model.md
+    template: templates/extended/data-model-template.md
+  - id: speckit.x.api-contract
+    file: commands/api-contract.md
+    produces: specs/contracts/{slug}.md
+    template: templates/extended/api-contract-template.md
+  - id: speckit.x.ux-flow
+    file: commands/ux-flow.md
+    produces: specs/ux/{slug}.md
+    template: templates/extended/ux-flow-template.md
+  - id: speckit.x.personas
+    file: commands/personas.md
+    produces: specs/personas.md
+    template: templates/core/personas-template.md
+  - id: speckit.x.glossary
+    file: commands/glossary.md
+    produces: specs/glossary.md
+    mode: append
+    template: templates/core/glossary-template.md
+  - id: speckit.x.observability
+    file: commands/observability.md
+    produces: specs/observability.md
+    template: templates/extended/observability-template.md
+  - id: speckit.x.research
+    file: commands/research.md
+    produces: specs/research/{slug}.md
+    template: templates/core/research-template.md
+  - id: speckit.x.fill-all
+    file: commands/fill-all.md
+    produces: specs/**/*.md
+    mode: bulk-autofill
+    agent: sdd-orchestrator
+
+# Preset bundles. `core` = 14 files; `pm-os` = core + PM OS bridge wiring.
+presets:
+  core:
+    templates:
+      - templates/core/*.md
+    commands:
+      - speckit.x.architecture
+      - speckit.x.design
+      - speckit.x.system
+      - speckit.x.adr
+      - speckit.x.lessons
+      - speckit.x.history
+      - speckit.x.personas
+      - speckit.x.glossary
+      - speckit.x.research
+      - speckit.x.risk
+    agents:
+      - agents/sdd-orchestrator.md
+      - agents/sdd-architect.md
+      - agents/sdd-historian.md
+      - agents/sdd-risk-analyst.md
+      - agents/sdd-scribe.md
+  pm-os:
+    extends: core
+    templates:
+      - templates/extended/*.md
+    bridge:
+      pmos_template_env: SPECKIT_X_TEMPLATE_DIR
+      pmos_category: sdd
+
+# Verification hooks. `specify-x verify` runs these in order.
+verify:
+  - frontmatter_schema: schemas/frontmatter.schema.json
+  - ref_link_check: true
+  - status_lifecycle_check: true
+  - depends_on_resolves: true

@@ -1,0 +1,14 @@
+{
+  "name": "specify-x",
+  "version": "0.1.0",
+  "description": "specKitEnhanced — SDD framework wrapping github/spec-kit",
+  "bin": {
+    "specify-x": "./bin/specify-x"
+  },
+  "scripts": {
+    "smoke": "bash scripts/smoke.sh",
+    "harvest": "specify-x harvest ~/projects --dry-run"
+  },
+  "author": "ShAIWhisperer",
+  "license": "MIT"
+}

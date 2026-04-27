@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specKitEnhanced/schemas/adr.schema.json",
+  "title": "ADR",
+  "allOf": [{ "$ref": "frontmatter.schema.json" }],
+  "required": ["adr_id", "title", "status", "type"],
+  "properties": {
+    "adr_id": { "type": "string", "pattern": "^ADR-[0-9]{4}$" },
+    "type": { "const": "adr" },
+    "status": { "enum": ["proposed", "accepted", "rejected", "superseded", "deprecated"] }
+  }
+}

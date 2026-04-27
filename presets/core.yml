@@ -1,0 +1,47 @@
+name: core
+description: >
+  The lean 14-file SDD core. Installed by default via `specify-x init`.
+  Covers everything needed to call a project SDD-compliant.
+
+templates:
+  - templates/core/constitution-template.md
+  - templates/core/spec-template.md
+  - templates/core/plan-template.md
+  - templates/core/tasks-template.md
+  - templates/core/architecture-template.md
+  - templates/core/design-template.md
+  - templates/core/system-template.md
+  - templates/core/history-template.md
+  - templates/core/lessons-template.md
+  - templates/core/decisions-template.md
+  - templates/core/personas-template.md
+  - templates/core/glossary-template.md
+  - templates/core/research-template.md
+  - templates/core/risks-template.md
+
+commands:
+  - extension/specKitEnhanced/commands/architecture.md
+  - extension/specKitEnhanced/commands/design.md
+  - extension/specKitEnhanced/commands/system.md
+  - extension/specKitEnhanced/commands/adr.md
+  - extension/specKitEnhanced/commands/lessons.md
+  - extension/specKitEnhanced/commands/history.md
+  - extension/specKitEnhanced/commands/risk.md
+  - extension/specKitEnhanced/commands/personas.md
+  - extension/specKitEnhanced/commands/glossary.md
+  - extension/specKitEnhanced/commands/research.md
+  - extension/specKitEnhanced/commands/fill-all.md
+
+agents:
+  - agents/sdd-orchestrator.md
+  - agents/sdd-architect.md
+  - agents/sdd-historian.md
+  - agents/sdd-risk-analyst.md
+  - agents/sdd-scribe.md
+
+schemas:
+  - schemas/frontmatter.schema.json
+  - schemas/spec.schema.json
+  - schemas/adr.schema.json
+
+voice: caveman   # options: caveman | verbose

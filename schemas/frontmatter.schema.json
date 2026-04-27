@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specKitEnhanced/schemas/frontmatter.schema.json",
+  "title": "SDD spec frontmatter",
+  "description": "Shared frontmatter shape for every spec under specs/ (PM OS compatible).",
+  "type": "object",
+  "required": ["title", "status", "type"],
+  "properties": {
+    "spec_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique id. For features: slug. For ADRs: ADR-NNNN. For singletons (system, security, observability, history, lessons, decisions, risks, personas, glossary, constitution): the type name."
+    },
+    "adr_id": {
+      "type": "string",
+      "pattern": "^ADR-[0-9]{4}$"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["draft", "review", "approved", "implemented", "deprecated", "proposed", "accepted", "rejected", "superseded"]
+    },
+    "type": {
+      "enum": [
+        "constitution", "feature", "architecture", "cross-cutting", "system",
+        "design", "plan", "tasks", "adr", "decisions", "history", "lessons",
+        "research", "risks", "security", "observability", "runbook",
+        "data-model", "api-contract", "ux-flow", "personas", "glossary"
+      ]
+    },
+    "author": { "type": "string" },
+    "maintainer": { "type": "string" },
+    "created": { "type": "string", "format": "date" },
+    "updated": { "type": "string", "format": "date" },
+    "version": { "type": "string" },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^\\{ref:.+\\}$" }
+    },
+    "linked_spec": { "type": "string" },
+    "linked_plan": { "type": "string" },
+    "supersedes": { "type": ["string", "null"] },
+    "superseded_by": { "type": ["string", "null"] },
+    "owner": { "type": "string" },
+    "implemented_by": { "type": "string" }
+  },
+  "additionalProperties": true
+}

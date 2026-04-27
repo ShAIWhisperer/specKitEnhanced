@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specKitEnhanced/schemas/spec.schema.json",
+  "title": "Feature spec",
+  "allOf": [{ "$ref": "frontmatter.schema.json" }],
+  "required": ["spec_id", "title", "status", "type"],
+  "properties": {
+    "type": { "const": "feature" }
+  }
+}

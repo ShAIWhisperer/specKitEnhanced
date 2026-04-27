@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+.env.local
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+node_modules/
+.mypy_cache/
+.ruff_cache/
+/tmp/
+
+# Generated harvest output — local portfolio data, never commit
+harvest/audit-matrix.csv
+harvest/pattern-library.md
+harvest/exemplar-excerpts/
+harvest/voice-samples.md
