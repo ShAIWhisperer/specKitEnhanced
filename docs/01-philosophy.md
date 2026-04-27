@@ -4,9 +4,9 @@
 
 spec-kit is strong, compact, and ships good bones (`/specify /plan /tasks /clarify /analyze /implement`). It does **not** ship the surrounding narrative layer — History, Lessons, ADRs, Runbooks, Risks — that a team actually opens week-to-week.
 
-PM OS-compatible projects have a working spec engine but are PM-domain-locked.
+Many teams adopt AI project management tools but find them domain-locked — their spec engines only serve one workflow. specKitEnhanced stays portable: plain markdown, no lock-in.
 
-specKitEnhanced distils 102 real portfolio projects into a minimal, markdown-only extension that stays compatible with both.
+specKitEnhanced distils 102 real portfolio projects into a minimal, markdown-only extension that stays compatible with spec-kit and other SDD tooling.
 
 ## Core beliefs
 

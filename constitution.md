@@ -15,7 +15,7 @@ updated: 2026-04-24
 
 ## 1. Mission
 
-Ship one house-branded SDD framework that works across 102+ projects. Distil proven MD patterns from the portfolio, expose them as templates/slash commands/agents, stay compatible with `github/spec-kit` and `PM OS`.
+Ship one house-branded SDD framework that works across 102+ projects. Distil proven MD patterns from the portfolio, expose them as templates/slash commands/agents, stay compatible with `github/spec-kit` and other SDD tooling.
 
 ## 2. Architectural Principles
 
@@ -37,7 +37,7 @@ Every spec carries YAML frontmatter matching `schemas/frontmatter.schema.json`. 
 
 ### P5: Compatible, not monopolistic
 
-`/speckit.*` commands and templates inherited from spec-kit stay verbatim. Extensions live under `/speckit.x.*`. PM OS's `{ref:}` syntax and frontmatter shape are adopted, not reinvented.
+`/speckit.*` commands and templates inherited from spec-kit stay verbatim. Extensions live under `/speckit.x.*`. Standard `{ref:}` cross-reference syntax and frontmatter shape are adopted from community conventions, not reinvented.
 
 ### P6: Stdlib-first CLI
 
@@ -50,7 +50,7 @@ Every design decision passes these filters in order:
 1. **Harvest filter** — Does this pattern exist in ≥ 1 real portfolio project? If no, don't ship it.
 2. **Idempotence filter** — Does re-running the command preserve user edits? If no, fix before shipping.
 3. **Caveman filter** — Is the output under 80 lines of compact MD? If no, trim or split.
-4. **Compat filter** — Does this break existing `/speckit.*` or PM OS users? If yes, open an ADR.
+4. **Compat filter** — Does this break existing `/speckit.*` users? If yes, open an ADR.
 
 If any filter fails, log an ADR at `specs/adr/ADR-NNNN-*.md`.
 
@@ -58,14 +58,14 @@ If any filter fails, log an ADR at `specs/adr/ADR-NNNN-*.md`.
 
 | Term | Definition |
 |---|---|
-| **Preset** | A YAML bundle that declares templates + commands + agents + schemas to install. `core.yml`, `pm-os.yml`. |
+| **Preset** | A YAML bundle that declares templates + commands + agents + schemas to install. `core.yml`, `extended.yml`. |
 | **Harvest** | Read-only audit of a portfolio directory that emits an adoption matrix + exemplar excerpts. |
-| **Bridge** | PM OS integration that symlinks templates into `PM OS` and emits a patch manifest. |
+| **Bridge** | Framework integration that symlinks templates into a target project and emits a patch manifest. |
 | **SDD-compliant** | Project satisfies the minima in `templates/core/constitution-template.md §6`. |
 
 ## 5. Spec Conventions
 
-Inherited from PM OS verbatim:
+Adopted conventions:
 
 - `{ref:path#section}` — link to spec section
 - `{ref:src/file.py:SYMBOL}` — link to code symbol

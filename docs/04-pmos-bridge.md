@@ -1,11 +1,11 @@
-# PM OS Bridge
+# Framework Bridge
 
-specKitEnhanced installs into any PM OS-compatible project as a template source. The PM OS skill engine can then emit specKitEnhanced-shaped outputs.
+specKitEnhanced installs into any AI project management backend as a template source. Your project management backend's skill engine can then emit specKitEnhanced-shaped outputs.
 
 ## What `specify-x bridge` does
 
 1. Creates `<pmos-root>/.specify-x/templates/` as a symlink to this repo's `templates/` directory.
-2. Writes `.specify-x/bridge-patches.json` — a manifest describing three PM OS source-code patches that must be applied manually (we do not edit PM OS code automatically, for auditability).
+2. Writes `.specify-x/bridge-patches.json` — a manifest describing three source-code patches that must be applied manually (we do not edit target framework code automatically, for auditability).
 
 ## Usage
 
@@ -14,7 +14,7 @@ specify-x bridge --pmos-root /path/to/your-pm-os
 specify-x bridge --pmos-root /path/to/your-pm-os --dry-run
 ```
 
-## Required PM OS code patches
+## Required patches in your AI PM backend
 
 ### 1. `backend/app/api/specs.py`
 
@@ -56,16 +56,16 @@ After `specify-x bridge`, the CLI prints:
 export SPECKIT_X_TEMPLATE_DIR=/path/to/your-pm-os/.specify-x/templates
 ```
 
-Add that to your shell profile or PM OS's `.env` before starting the backend.
+Add that to your shell profile or your backend's `.env` before starting the backend.
 
 ## Flow
 
-1. User in PM OS chat says "draft an architecture spec for the agent orchestrator".
-2. PM OS `AgentOrchestrator` routes to `sdd-architect` (new SDD domain).
+1. User in your backend chat says "draft an architecture spec for the agent orchestrator".
+2. Your backend's `AgentOrchestrator` routes to `sdd-architect` (new SDD domain).
 3. `sdd-architect` reads `SPECKIT_X_TEMPLATE_DIR/core/architecture-template.md`.
-4. Output saved as a PM OS artifact with specKitEnhanced frontmatter (`spec_id`, `title`, `status`, `type`, `author`, `created`, `updated`, `depends_on`).
-5. Same output is valid as a free-standing `specs/architecture/<slug>.md` outside PM OS.
+4. Output saved as a project artifact with specKitEnhanced frontmatter (`spec_id`, `title`, `status`, `type`, `author`, `created`, `updated`, `depends_on`).
+5. Same output is valid as a free-standing `specs/architecture/<slug>.md` outside the backend.
 
 ## Compatibility guarantee
 
-PM OS specs and specKitEnhanced specs are the same shape. You can move a spec between environments without edits. `{ref:}` syntax works identically in both.
+Specs from your PM backend and specKitEnhanced specs are the same shape. You can move a spec between environments without edits. `{ref:}` syntax works identically in both.

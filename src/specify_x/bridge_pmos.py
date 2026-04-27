@@ -1,7 +1,7 @@
-"""PM OS bridge — installs specKitEnhanced templates into a PM OS-compatible project.
+"""Framework bridge — installs specKitEnhanced templates into a target project framework.
 
-Non-destructive: symlinks templates into the PM OS seed dir and writes a small
-patch manifest. Actual patches to PM OS code are left as a report the
+Non-destructive: symlinks templates into the target project seed dir and writes a small
+patch manifest. Actual patches to target framework code are left as a report the
 user applies manually (to preserve auditability).
 """
 
@@ -24,7 +24,7 @@ class BridgeReport:
 
 def install_to_pmos(repo_root: Path, pmos_root: Path, dry_run: bool = False) -> BridgeReport:
     if not pmos_root.exists():
-        raise FileNotFoundError(f"PM OS root not found: {pmos_root}")
+        raise FileNotFoundError(f"Bridge root not found: {pmos_root}")
 
     templates_src = repo_root / "templates"
     seed_target = pmos_root / ".specify-x" / "templates"
@@ -43,7 +43,7 @@ def install_to_pmos(repo_root: Path, pmos_root: Path, dry_run: bool = False) -> 
     # Env hint
     env_hint = f"export SPECKIT_X_TEMPLATE_DIR={seed_target}"
 
-    # Patch manifest (what PM OS code needs to read)
+    # Patch manifest for the target framework
     patch_data = {
         "specs_py_patch": {
             "file": "backend/app/api/specs.py",

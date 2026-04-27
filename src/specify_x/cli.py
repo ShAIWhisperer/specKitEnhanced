@@ -48,7 +48,7 @@ def cmd_init(args: argparse.Namespace) -> int:
 def cmd_add(args: argparse.Namespace) -> int:
     target = Path(args.target).resolve()
     # Same logic as init but with a preset that only contains the requested kind.
-    # For MVP: reuse install with --preset pm-os, then the user picks what to keep.
+    # For MVP: reuse install with --preset extended, then the user picks what to keep.
     _info("add subcommand: forthcoming. For now, copy the extended template you want:")
     _info(f"  cp {REPO_ROOT}/templates/extended/{args.kind}-template.md {target}/specs/{args.kind}.md")
     return 0
@@ -71,7 +71,7 @@ def cmd_verify(args: argparse.Namespace) -> int:
 def cmd_bridge(args: argparse.Namespace) -> int:
     pmos = Path(args.pmos_root).resolve()
     rpt = bridge_mod.install_to_pmos(REPO_ROOT, pmos, dry_run=args.dry_run)
-    _info(f"PM OS bridge:")
+    _info(f"Framework bridge:")
     _info(f"  symlink: {rpt.symlink}")
     _info(f"  env hint: {rpt.env_hint}")
     _info(f"  patch manifest: {rpt.patch_file}")
@@ -88,7 +88,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     pi = sub.add_parser("init", help="Scaffold a new SDD-compliant project")
     pi.add_argument("target", nargs="?", default=".", help="target directory (default: cwd)")
-    pi.add_argument("--preset", default="core", help="preset name: core | pm-os")
+    pi.add_argument("--preset", default="core", help="preset name: core | extended")
     pi.add_argument("--author", default="@author", help='author handle, e.g. "@alice"')
     pi.add_argument("--project-name", default=None, help="project name (default: basename of target)")
     pi.add_argument("--force", action="store_true", help="overwrite existing spec files")
@@ -108,8 +108,8 @@ def build_parser() -> argparse.ArgumentParser:
     pv.add_argument("target", nargs="?", default=".")
     pv.set_defaults(func=cmd_verify)
 
-    pb = sub.add_parser("bridge", help="Install specKitEnhanced into a PM OS-compatible project")
-    pb.add_argument("--pmos-root", required=True, help="path to target PM OS project root")
+    pb = sub.add_parser("bridge", help="Install specKitEnhanced into an AI project management backend")
+    pb.add_argument("--pmos-root", required=True, help="path to target AI project management backend root")
     pb.add_argument("--dry-run", action="store_true")
     pb.set_defaults(func=cmd_bridge)
 

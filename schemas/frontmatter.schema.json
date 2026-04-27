@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://specKitEnhanced/schemas/frontmatter.schema.json",
   "title": "SDD spec frontmatter",
-  "description": "Shared frontmatter shape for every spec under specs/ (PM OS compatible).",
+  "description": "Shared frontmatter shape for every spec under specs/.",
   "type": "object",
   "required": ["title", "status", "type"],
   "properties": {

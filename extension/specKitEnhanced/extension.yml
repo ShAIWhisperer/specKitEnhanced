@@ -4,8 +4,7 @@ description: >
   Opinionated SDD extension pack for github/spec-kit. Adds 17 extended templates
   (Architecture, Design, System, History, Lessons, ADRs, Runbook, Risk, Security,
   Observability, API Contract, Data Model, UX Flow, Personas, Glossary, Research)
-  under the /speckit.x.* namespace. Frontmatter + `{ref:}` syntax compatible
-  with PM OS-compatible projects.
+  under the /speckit.x.* namespace.
 license: MIT
 author: "ShAIWhisperer"
 homepage: "https://github.com/ShAIWhisperer/specKitEnhanced"
@@ -95,7 +94,7 @@ commands:
     mode: bulk-autofill
     agent: sdd-orchestrator
 
-# Preset bundles. `core` = 14 files; `pm-os` = core + PM OS bridge wiring.
+# Preset bundles. `core` = 14 files; `extended` = core + extended templates + framework bridge.
 presets:
   core:
     templates:
@@ -117,7 +116,7 @@ presets:
       - agents/sdd-historian.md
       - agents/sdd-risk-analyst.md
       - agents/sdd-scribe.md
-  pm-os:
+  extended:
     extends: core
     templates:
       - templates/extended/*.md

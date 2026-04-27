@@ -19,7 +19,7 @@
 | Research | `specs/research/<slug>.md` | research | Evidence log |
 | Risks | `specs/risks.md` | risks | Active risk register |
 
-## Extended (7) — installed by `pm-os` preset
+## Extended (7) — installed by `extended` preset
 
 | Template | File | Type | Purpose |
 |---|---|---|---|

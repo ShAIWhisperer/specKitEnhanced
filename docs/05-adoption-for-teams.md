@@ -27,7 +27,7 @@ For now, the house voice is **caveman-full** — drop articles, fragments OK, te
 - Adding a new core or extended template.
 - Changing frontmatter required fields.
 - Changing the status lifecycle.
-- Breaking compatibility with spec-kit or PM OS.
+- Breaking compatibility with spec-kit.
 - Any decision that affects > 3 consumer projects.
 
 ## When to append a lesson
@@ -35,4 +35,4 @@ For now, the house voice is **caveman-full** — drop articles, fragments OK, te
 - Spec format feels awkward in a real session.
 - Agent routing picked the wrong specialist.
 - Harvest missed a real pattern.
-- PM OS bridge broke under version skew.
+- Framework bridge broke under version skew.

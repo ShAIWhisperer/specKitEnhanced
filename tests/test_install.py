@@ -46,17 +46,17 @@ def test_core_preset_install(tmp_path: Path) -> None:
     assert report.ok, f"verify failed: {report.issues}"
 
 
-def test_pm_os_preset_install(tmp_path: Path) -> None:
+def test_extended_preset_install(tmp_path: Path) -> None:
     target = tmp_path / "project"
     manifest = install_mod.install(
         repo_root=REPO_ROOT,
         target=target,
-        preset_name="pm-os",
+        preset_name="extended",
         author="@test",
         project_name="pkg-under-test",
         force=False,
     )
-    assert manifest["preset"] == "pm-os"
+    assert manifest["preset"] == "extended"
     specs = target / "specs"
     for name in [
         "data-model.md",

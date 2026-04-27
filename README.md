@@ -13,7 +13,7 @@
 - 14 core + 7 extended markdown templates covering every major spec category
 - 16 slash commands under `/speckit.x.*` that compose with, not replace, upstream spec-kit
 - 5 Claude Code sub-agents for spec authoring delegation
-- A Python CLI (`specify-x`) for scaffolding, linting, portfolio mining, and PM OS bridging
+- A Python CLI (`specify-x`) for scaffolding, linting, portfolio mining, and framework bridging
 - JSON Schema validation for frontmatter + status lifecycle enforcement
 
 Everything is **plain markdown**. No web UI. No SaaS. Works in any editor.
@@ -36,8 +36,8 @@ uv tool install .
 # Core preset (14 templates + 10 commands + 5 agents)
 specify-x init myproject --preset core
 
-# Full preset (21 templates + 16 commands + 5 agents + PM OS bridge files)
-specify-x init myproject --preset pm-os
+# Full preset (21 templates + 16 commands + 5 agents + framework bridge)
+specify-x init myproject --preset extended
 
 # Scaffold in current directory
 specify-x init . --preset core --project-name "My App"
@@ -58,13 +58,13 @@ python3 -m src.specify_x.cli harvest ~/projects
 | Preset | Templates | Commands | Agents |
 |--------|----------:|--------:|-------:|
 | `core` | 14 | 10 | 5 |
-| `pm-os` | 21 | 16 | 5 |
+| `extended` | 21 | 16 | 5 |
 
 ---
 
 ## Template catalog
 
-### Core (14) — `core` and `pm-os` presets
+### Core (14) — `core` and `extended` presets
 
 | Template | Installed at | Purpose |
 |----------|-------------|---------|
@@ -83,7 +83,7 @@ python3 -m src.specify_x.cli harvest ~/projects
 | **research** | `specs/research/<slug>.md` | Evidence and discovery log |
 | **risks** | `specs/risks.md` | Active risk register |
 
-### Extended (7) — `pm-os` preset only
+### Extended (7) — `extended` preset only
 
 | Template | Installed at | Purpose |
 |----------|-------------|---------|
@@ -184,7 +184,7 @@ The orchestrator enforces three rules before any write:
 ## CLI reference
 
 ```
-specify-x init <dir> [--preset core|pm-os] [--project-name NAME] [--force]
+specify-x init <dir> [--preset core|extended] [--project-name NAME] [--force]
 specify-x verify <dir> [--path FILE]
 specify-x harvest <portfolio-dir> [--dry-run]
 specify-x bridge [--pmos-root PATH]
@@ -218,7 +218,7 @@ Re-harvest after every 5+ new projects to keep templates grounded in real usage.
 
 ### `bridge`
 
-Symlinks extended templates into a target PM OS project and writes a patch manifest for the 3 integration points (`specs.py`, `skill_engine.py`, `agent_orchestrator.py`). Requires `--pmos-root <path>`.
+Symlinks extended templates into a target project and emits a patch manifest for integrating with AI project management backends. Requires `--pmos-root <path>`.
 
 ---
 
@@ -267,8 +267,8 @@ specKitEnhanced/
 │   ├── install.py          # template renderer + scaffold logic
 │   ├── verify.py           # frontmatter lint + ref-link checker
 │   ├── harvest.py          # read-only portfolio miner
-│   ├── bridge_pmos.py      # PM OS integration bridge
-│   └── presets.py          # loads presets/core.yml + pm-os.yml
+│   ├── bridge_pmos.py      # framework integration bridge
+│   └── presets.py          # loads presets/core.yml + extended.yml
 ├── templates/
 │   ├── core/               # 14 core markdown templates
 │   ├── extended/           # 7 extended markdown templates
@@ -284,7 +284,7 @@ specKitEnhanced/
 │   └── adr.schema.json
 ├── presets/
 │   ├── core.yml            # core preset manifest
-│   └── pm-os.yml           # pm-os preset manifest
+│   └── extended.yml        # extended preset manifest
 ├── docs/                   # extended documentation
 ├── harvest/                # output of `specify-x harvest` (generated)
 ├── examples/greenfield-app # gold-standard scaffold output (checked in)

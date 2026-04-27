@@ -1,9 +1,8 @@
-name: pm-os
+name: extended
 description: >
   Extends `core` with the 7 extended templates (runbook, security,
   observability, data-model, api-contract, ux-flow, ADR per-decision)
-  and wires the PM OS bridge so PM OS-compatible projects emit
-  specKitEnhanced-shaped outputs.
+  and wires the framework bridge for integration with AI project management backends.
 
 extends: core
 

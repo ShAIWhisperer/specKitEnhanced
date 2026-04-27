@@ -6,7 +6,7 @@ Opinionated Spec-Driven Development (SDD) framework. Fork-and-wrap of github/spe
 
 ## How to work here
 
-- **Always run** `bash scripts/smoke.sh` before declaring done. It exercises init (core + pm-os), verify, harvest dry-run, bridge dry-run, idempotence.
+- **Always run** `bash scripts/smoke.sh` before declaring done. It exercises init (core + extended), verify, harvest dry-run, bridge dry-run, idempotence.
 - **Tests:** `pytest tests/ -v` — 9 tests, must stay green.
 - **Harvest output** (`harvest/pattern-library.md`, `harvest/audit-matrix.csv`, `harvest/exemplar-excerpts/`) is generated, not hand-edited.
 - **Templates** under `templates/` are the product. Changes here ripple into every project scaffolded via `specify-x init`. Review diffs carefully.
@@ -20,15 +20,15 @@ Opinionated Spec-Driven Development (SDD) framework. Fork-and-wrap of github/spe
 | `src/specify_x/harvest.py` | read-only portfolio miner; emits audit-matrix.csv + pattern-library.md |
 | `src/specify_x/install.py` | template renderer; creates `specs/`, `.claude/agents/`, `.claude/commands/`, `.specify/` |
 | `src/specify_x/verify.py` | frontmatter schema + ref-link + status-lifecycle lint |
-| `src/specify_x/bridge_pmos.py` | symlinks templates into a target PM OS project, writes patch manifest |
-| `src/specify_x/presets.py` | loads presets/core.yml + pm-os.yml with stdlib YAML fallback |
+| `src/specify_x/bridge_pmos.py` | symlinks templates into a target framework project, writes patch manifest |
+| `src/specify_x/presets.py` | loads presets/core.yml + extended.yml with stdlib YAML fallback |
 | `templates/core/*.md` | 14 core templates, installed by default |
-| `templates/extended/*.md` | 7 extended templates, opt-in via `pm-os` preset |
+| `templates/extended/*.md` | 7 extended templates, opt-in via `extended` preset |
 | `extension/specKitEnhanced/extension.yml` | spec-kit extension manifest |
 | `extension/specKitEnhanced/commands/*.md` | 16 slash command definitions |
 | `agents/*.md` | 5 SDD agents (orchestrator + 4 specialists) |
 | `schemas/*.json` | JSON Schema: frontmatter, spec, ADR |
-| `presets/core.yml`, `presets/pm-os.yml` | what each preset installs |
+| `presets/core.yml`, `presets/extended.yml` | what each preset installs |
 
 ## Key constraints
 
@@ -56,4 +56,4 @@ python3 -m src.specify_x.cli harvest ~/projects
 - Implement `specify-x add <kind>` properly (today it prints a copy hint).
 - Wire `.claude/hooks/pre-commit-sdd-lint.sh` + `post-commit-history.sh` templates.
 - Hook harvest output into template authoring loop — "re-harvest after portfolio grows, re-distill templates."
-- PM OS bridge: actually apply the 3 patches (specs.py, skill_engine.py, agent_orchestrator.py) rather than emitting them as a manifest. Requires `--pmos-root <path>`.
+- Framework bridge: actually apply the 3 patches (specs.py, skill_engine.py, agent_orchestrator.py) rather than emitting them as a manifest. Requires `--pmos-root <path>`.

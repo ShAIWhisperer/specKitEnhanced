@@ -2,11 +2,11 @@
 
 ## Context
 
-Teams running many projects under `~/projects/`. You like `github/spec-kit` but find it thin on the MD templates you actually reach for (History, LessonsLearned, Design, Architecture, System, etc.). `PM OS` already ships a working spec engine (constitution.md, 7 architecture specs, 12 feature folders × 3 files, 3 cross-cutting, `{ref:}` refs, status lifecycle) but is PM-domain-locked.
+Teams running many projects under `~/projects/`. You like `github/spec-kit` but find it thin on the MD templates you actually reach for (History, LessonsLearned, Design, Architecture, System, etc.). Existing AI project management tools often ship a working spec engine but are domain-locked.
 
-**Decision:** build `specKitEnhanced` as a **fork-and-wrap of spec-kit v0.8.0 (MIT)**, adding the missing 14-template catalog, tight two-way bridge to PM OS, and — crucially — **harvesting** the 110 existing projects for proven MD patterns to fold into the framework. **No retrofits**. Existing projects stay untouched. specKitEnhanced ships for new projects + volunteer pilots.
+**Decision:** build `specKitEnhanced` as a **fork-and-wrap of spec-kit v0.8.0 (MIT)**, adding the missing 14-template catalog, a framework bridge for AI PM backends, and — crucially — **harvesting** the 110 existing projects for proven MD patterns to fold into the framework. **No retrofits**. Existing projects stay untouched. specKitEnhanced ships for new projects + volunteer pilots.
 
-**Outcome:** one house-branded SDD framework, 14-file core template pack distilled from your real portfolio, PM OS-wired, team-adoptable via `.claude/` commands. New projects scaffold in <2 min. PM OS's 97 skills emit specKitEnhanced-shaped artifacts.
+**Outcome:** one house-branded SDD framework, 14-file core template pack distilled from your real portfolio, team-adoptable via `.claude/` commands. New projects scaffold in <2 min.
 
 ---
 
@@ -17,7 +17,7 @@ Install `spec-kit` as pinned dependency. Ship a thin `specify-x` CLI + a spec-ki
 Why not the alternatives:
 - Upstream PRs — merge timelines at GitHub's pace, not yours. Caveman tonal preferences won't survive upstream review.
 - Ground-up — throws away `specify init --here --force --ai <agent>` refresh loop + 30+ agent integrations (Claude, Cursor, Copilot, Gemini, Qwen, etc.).
-- Extend PM OS only — locks SDD to PM domain; no portable CLI for the other 109 projects.
+- Extend a single tool only — locks SDD to that tool's domain; no portable CLI for the other 109 projects.
 
 License: spec-kit MIT. Forking/embedding permitted.
 
@@ -36,10 +36,10 @@ specKitEnhanced/
 ├── src/specify_x/
 │   ├── cli.py                             # `specify-x init|add|harvest|verify|bridge`
 │   ├── install.py                         # pins spec-kit, applies extension
-│   ├── presets.py                         # core | pm-os
+│   ├── presets.py                         # core | extended
 │   ├── verify.py                          # frontmatter + link lint
 │   ├── harvest.py                         # portfolio miner (phase 1)
-│   └── bridge_pmos.py                     # PM OS skill_engine integration
+│   └── bridge_pmos.py                     # framework bridge integration
 │
 ├── extension/specKitEnhanced/
 │   ├── extension.yml                      # declares commands, templates
@@ -93,7 +93,7 @@ specKitEnhanced/
 │
 ├── presets/
 │   ├── core.yml                           # 14 files, 12 commands
-│   └── pm-os.yml                          # core + PM OS bridge wiring
+│   └── extended.yml                       # core + extended templates + framework bridge
 │
 ├── harvest/                               # PHASE 1 OUTPUT — portfolio mining
 │   ├── audit-matrix.csv                   # per-project: which MD files exist
@@ -102,13 +102,13 @@ specKitEnhanced/
 │   │   ├── Vibe-3-Studio_claude-md.md
 │   │   ├── UIUXExpert_docs-hierarchy.md
 │   │   ├── __Claude_Skills_skill-md.md
-│   │   ├── PM OS_constitution.md
+│   │   ├── ExampleProject_constitution.md
 │   │   └── ...
 │   └── voice-samples.md                   # tone/voice patterns found
 │
 ├── examples/
 │   ├── greenfield-app/                    # gold standard scaffold, all core filled
-│   └── pm-os-wired/                       # proof of PM OS bridge
+│   └── framework-wired/                   # proof of framework bridge
 │
 └── docs/
     ├── 01-philosophy.md
@@ -122,7 +122,7 @@ specKitEnhanced/
 
 ## 3. Template Catalog — 14 Core + 7 Extended
 
-All templates share frontmatter (PM OS–compatible):
+All templates share frontmatter (cross-tool compatible):
 
 ```yaml
 ---
@@ -161,9 +161,9 @@ depends_on: []          # list of {ref:path} pointers
 | 20 | Observability | extended | `specs/observability.md` | Metrics, Logs, Traces, SLOs, Alerts | runbook, arch | `/speckit.x.observability` |
 | 21 | Per-decision ADR | extended | `specs/adr/ADR-NNNN-<slug>.md` | Context, Decision, Consequences, Alternatives | decisions.md | `/speckit.x.adr --new` |
 
-**Reference syntax** (inherited from PM OS): `{ref:specs/features/x/spec.md#section}` · `{ref:backend/app/core/file.py:SYMBOL}` · `{ref:__skilss/<name>/SKILL.md}`.
+**Reference syntax**: `{ref:specs/features/x/spec.md#section}` · `{ref:backend/app/core/file.py:SYMBOL}` · `{ref:__skilss/<name>/SKILL.md}`.
 
-**Status lifecycle** (inherited from PM OS): `draft → review → approved → implemented → deprecated`. Backward transitions allowed; must log in inline `## Changelog` section.
+**Status lifecycle**: `draft → review → approved → implemented → deprecated`. Backward transitions allowed; must log in inline `## Changelog` section.
 
 ---
 
@@ -177,31 +177,31 @@ All `/speckit.x.*` commands enforce: constitution present, valid frontmatter, le
 
 ## 5. Agent Set
 
-One orchestrator + four specialists. Drop-ins for `.claude/agents/`. Map to PM OS where overlap exists — don't duplicate.
+One orchestrator + four specialists. Drop-ins for `.claude/agents/`. Wire into any AI PM backend via the framework bridge.
 
 - `sdd-orchestrator` — routes `/speckit.x.*`, enforces constitution, checks frontmatter.
-- `sdd-architect` — Architecture, System, Design. (Reuses PM OS `Documentation` agent via bridge.)
-- `sdd-historian` — History, Lessons, ADRs. (NEW — no PM OS equivalent.)
-- `sdd-risk-analyst` — Risks, Security. (Reuses PM OS `risk-register-builder` skill.)
-- `sdd-scribe` — Glossary, Personas, Research. (Reuses PM OS `Discovery` agent.)
+- `sdd-architect` — Architecture, System, Design.
+- `sdd-historian` — History, Lessons, ADRs.
+- `sdd-risk-analyst` — Risks, Security.
+- `sdd-scribe` — Glossary, Personas, Research.
 
-Mapping documented in `docs/04-pmos-bridge.md`.
+Integration patterns documented in `docs/04-pmos-bridge.md`.
 
 ---
 
-## 6. PM OS Bridge — tight two-way
+## 6. Framework Bridge
 
-Concrete integration points:
+Concrete integration points for your AI PM backend (example paths — adapt to your backend's layout):
 
-- `/path/to/your-pm-os/backend/app/core/skill_engine.py` — extend `OUTPUT_DIR_TO_CATEGORY` + `SKILL_CATEGORY_OVERRIDES` with `"sdd"` → `"SDD Framework"`. Register specKitEnhanced templates as skill output destinations.
-- `/path/to/your-pm-os/backend/app/api/specs.py` — add env var `SPECKIT_X_TEMPLATE_DIR` read before `settings.project_root / "specs"`. Extend `SPEC_FILE_LABELS` dict with the 14 core filenames.
-- `/path/to/your-pm-os/backend/app/core/agent_orchestrator.py` — register 5 new SDD agents as an added domain.
-- `specKitEnhanced/src/specify_x/bridge_pmos.py` — exposes `install_to_pmos(pmos_root)`: symlinks `templates/core/` into PM OS seed dir, patches `settings.json` with new categories.
+- `<backend>/app/core/skill_engine.py` — extend `OUTPUT_DIR_TO_CATEGORY` + `SKILL_CATEGORY_OVERRIDES` with `"sdd"` → `"SDD Framework"`. Register specKitEnhanced templates as skill output destinations.
+- `<backend>/app/api/specs.py` — add env var `SPECKIT_X_TEMPLATE_DIR` read before `settings.project_root / "specs"`. Extend `SPEC_FILE_LABELS` dict with the 14 core filenames.
+- `<backend>/app/core/agent_orchestrator.py` — register 5 new SDD agents as an added domain.
+- `specKitEnhanced/src/specify_x/bridge_pmos.py` — exposes `install_to_pmos(pmos_root)`: symlinks `templates/core/` into the backend's seed dir, patches `settings.json` with new categories.
 
 Flow:
-1. PM OS `SkillEngine.load_all()` discovers specKitEnhanced templates via `SPECKIT_X_TEMPLATE_DIR`.
-2. Any PM OS skill with `category: sdd` emits output in specKitEnhanced frontmatter shape.
-3. PM OS `specs.py` API serves extended template set by default.
+1. Backend `SkillEngine.load_all()` discovers specKitEnhanced templates via `SPECKIT_X_TEMPLATE_DIR`.
+2. Any backend skill with `category: sdd` emits output in specKitEnhanced frontmatter shape.
+3. Backend `specs.py` API serves extended template set by default.
 
 ---
 
@@ -236,7 +236,6 @@ Existing projects stay untouched. Strategy is **mine them for gold, fold the gol
 6. Copy excerpts (3–20 lines max) into `harvest/exemplar-excerpts/<project>_<filetype>.md` — raw samples for later template authoring.
 
 Already-identified exemplars worth mining (from exploration):
-- **PM OS** — `specs/constitution.md`, 3-file feature split, `{ref:}` syntax, status lifecycle, SKILL.md = spec+prompt+metadata.
 - **Vibe-3-Studio** — `.claude/{agents,commands,hooks}` triad, DEPLOYMENT_PLAN, PERFORMANCE_OPTIMIZATION_REPORT, AUDIO_TESTING_GUIDE (runbook pattern).
 - **UIUXExpert** — numbered `docs/00-*.md…16-*.md` curriculum hierarchy, `agent-system-prompt.md`.
 - **__Claude_Skills** — `SKILL.md` per-module + `SKILLS_CATALOG.md` indexing (21 instances).
@@ -253,17 +252,17 @@ Turn harvest into templates.
 
 1. `harvest/pattern-library.md` → cross-check against 14 core templates. For each: does your portfolio already have a better example than spec-kit's baseline? If yes, rewrite the template section headings + preamble from the portfolio exemplar.
 2. Extract voice samples from top 3 projects → `templates/_voice/caveman.md` (your tone), `templates/_voice/verbose.md` (team-readable). Templates read `{{voice.preamble}}`.
-3. Lift PM OS's `constitution.md` wholesale as the seed for `templates/core/constitution-template.md` (with field placeholders).
-4. Lift PM OS's 3-file feature split as `spec.md` / `plan.md` / `tasks.md` baseline structure.
+3. Seed `templates/core/constitution-template.md` from the best portfolio constitution example (with field placeholders).
+4. Use real portfolio 3-file feature splits as the baseline structure for `spec.md` / `plan.md` / `tasks.md`.
 5. Lift `__Claude_Skills`' SKILLS_CATALOG.md → `specs/README.md` template section on spec indexing.
 6. Candidate additions to `templates/extended/` based on harvest hits: `moat-template.md` (Linear_Upgrades), `knowledge-template.md` (13 projects use it — real signal), `comprehensive-readme-template.md` (ManyMany.dev).
 
 ### Phase 3 — Ship (week 3)
 
 1. `specify-x init --preset core` scaffolds a new project in <2 min.
-2. `specify-x init --preset pm-os` scaffolds + wires PM OS bridge.
+2. `specify-x init --preset extended` scaffolds + wires framework bridge.
 3. Publish repo as internal package. Team installs via `uv tool install git+...`.
-4. Add specKitEnhanced to the PM OS repo itself via `bridge_pmos.install_to_pmos()` — PM OS becomes first dogfood consumer.
+4. Add specKitEnhanced to your AI PM backend via `bridge_pmos.install_to_pmos()` — the backend becomes first dogfood consumer.
 
 ### Phase 4 — Voluntary Pilots (week 4+)
 
@@ -299,7 +298,7 @@ End-to-end smoke test (scripted in `scripts/smoke.sh`):
    - `depends_on` all resolve.
 10. Diff against `examples/greenfield-app/` — byte-equivalent modulo dates.
 11. `specify-x harvest --dry-run ~/projects` → emits audit-matrix.csv without mutations.
-12. PM OS bridge: `cd /path/to/your-pm-os && python -c "from app.api.specs import SEED_SPECS_DIR; assert SPECKIT_X_TEMPLATE_DIR resolves"`.
+12. Framework bridge: `cd /path/to/your-backend && python -c "from app.api.specs import SEED_SPECS_DIR; assert SPECKIT_X_TEMPLATE_DIR resolves"`.
 
 CI: `.github/workflows/speckit-x-verify.yml` runs steps 9–10 on every PR to specKitEnhanced.
 
@@ -309,30 +308,28 @@ CI: `.github/workflows/speckit-x-verify.yml` runs steps 9–10 on every PR to sp
 
 - `/path/to/specKitEnhanced/src/specify_x/cli.py` — `specify-x init|add|harvest|verify|bridge` entry points
 - `/path/to/specKitEnhanced/src/specify_x/harvest.py` — portfolio miner (Phase 1)
-- `/path/to/specKitEnhanced/src/specify_x/bridge_pmos.py` — PM OS integration
+- `/path/to/specKitEnhanced/src/specify_x/bridge_pmos.py` — framework bridge integration
 - `/path/to/specKitEnhanced/src/specify_x/verify.py` — schema + link lint
 - `/path/to/specKitEnhanced/extension/specKitEnhanced/extension.yml` — spec-kit extension manifest
-- `/path/to/specKitEnhanced/templates/core/constitution-template.md` — seeded from PM OS `specs/constitution.md`
+- `/path/to/specKitEnhanced/templates/core/constitution-template.md` — seeded from portfolio exemplars
 - `/path/to/specKitEnhanced/templates/core/{architecture,design,system,history,lessons,decisions,personas,glossary,research,risks}-template.md` — 10 new files
 - `/path/to/specKitEnhanced/templates/extended/{data-model,api-contract,ux-flow,runbook,security,observability}-template.md` — 6 new files
 - `/path/to/specKitEnhanced/templates/extended/adr/ADR-NNNN-slug-template.md`
 - `/path/to/specKitEnhanced/agents/{sdd-orchestrator,sdd-architect,sdd-historian,sdd-risk-analyst,sdd-scribe}.md`
 - `/path/to/specKitEnhanced/schemas/{frontmatter,spec,adr}.schema.json`
-- `/path/to/specKitEnhanced/presets/{core,pm-os}.yml`
+- `/path/to/specKitEnhanced/presets/{core,extended}.yml`
 
-## Critical Files to Modify (PM OS bridge)
+## Critical Files to Modify (framework bridge)
 
-- `/path/to/your-pm-os/backend/app/api/specs.py` — add `SPECKIT_X_TEMPLATE_DIR` env lookup, extend `SPEC_FILE_LABELS`
-- `/path/to/your-pm-os/backend/app/core/skill_engine.py` — extend `OUTPUT_DIR_TO_CATEGORY` with `"sdd"` mapping
-- `/path/to/your-pm-os/backend/app/core/agent_orchestrator.py` — register 5 SDD agents
+- `<backend>/app/api/specs.py` — add `SPECKIT_X_TEMPLATE_DIR` env lookup, extend `SPEC_FILE_LABELS`
+- `<backend>/app/core/skill_engine.py` — extend `OUTPUT_DIR_TO_CATEGORY` with `"sdd"` mapping
+- `<backend>/app/core/agent_orchestrator.py` — register 5 SDD agents
 
 ## Critical Existing Code to Reuse
 
-- PM OS `SkillEngine._parse_skill()` — frontmatter parsing (proven, reuse shape)
-- PM OS `specs.py::_build_tree()` — spec tree navigation (port or call)
-- PM OS `constitution.md` — seed for specKitEnhanced constitution template
 - spec-kit `specify init --here --force --ai <agent>` — refresh loop (don't reimplement)
 - spec-kit `extensions/X/extension.yml` composition strategies (prepend/append/wrap) — native extensibility
+- Portfolio exemplars from harvest for constitution template seed and feature split structure
 
 ---
 
@@ -353,7 +350,7 @@ Start sequence on resume:
 2. Scaffold directory tree from section 2.
 3. Write `src/specify_x/harvest.py` first → run it read-only against `~/projects/` → generate `harvest/audit-matrix.csv` and `harvest/exemplar-excerpts/`.
 4. Use harvest output to draft each of the 14 core templates.
-5. Copy `/path/to/your-pm-os/specs/constitution.md` as seed for `templates/core/constitution-template.md` and replace specifics with placeholders.
+5. Use a portfolio exemplar constitution as seed for `templates/core/constitution-template.md` and replace specifics with placeholders.
 6. Write `extension/specKitEnhanced/extension.yml` per spec-kit's extension spec.
 7. Implement `specify-x init` (Python) that: runs `specify init --here --ai claude`, then copies `templates/core/*` into `specs/`, then writes `.specify/profile.yml`.
 8. Implement `specify-x verify` with JSON Schema + link lint.
@@ -362,7 +359,7 @@ Start sequence on resume:
 
 Key references:
 - spec-kit repo: https://github.com/github/spec-kit (MIT, v0.8.0, active)
-- PM OS: `/path/to/your-pm-os/` — tight bridge target
+- Framework bridge target: your AI PM backend root (passed via `--pmos-root`)
 - Harvest source dir: `~/projects/*/` — read-only
 
 Caveman mode on — keep templates compact, avoid filler prose.

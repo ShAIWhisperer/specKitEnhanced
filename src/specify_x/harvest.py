@@ -81,7 +81,7 @@ SIGNAL_FOLDERS = {
     "commands",
     "agents",
     "hooks",
-    "__skilss",  # PM OS typo kept intentionally
+    "__skilss",  # legacy folder name kept for compatibility
     "skills",
     ".github",
 }
